@@ -1,9 +1,10 @@
 import pandas as pd
+import pyspark
 from pyspark.sql import SparkSession
 from sqlalchemy import create_engine
 
-# 🧠 Tạo Spark session
-spark = SparkSession.builder \
+# 🧠 Tạo pyspark session
+pyspark = SparkSession.builder \
     .appName("ExportGoldToPostgres") \
     .getOrCreate()
 
@@ -14,7 +15,7 @@ PG_HOST = "localhost"  # đổi thành 'host.docker.internal' nếu chạy từ 
 PG_PORT = "5432"
 PG_DB = "postgres"
 
-pg_url = f"postgresql://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DB}"
+pg_url = f"postgresql://{PG_USER}:{PG_PASSWORD}@{PG_HOST}/{PG_DB}?sslmode=require"
 engine = create_engine(pg_url)
 
 # 📋 Danh sách bảng Gold và tên PostgreSQL tương ứng (không có tiền tố 'gold_')
@@ -30,7 +31,7 @@ gold_tables = {
 for delta_table, pg_table in gold_tables.items():
     try:
         print(f"📤 Exporting '{delta_table}' to PostgreSQL table '{pg_table}'...")
-        df_spark = spark.read.table(f"portfolio.end_to_end_demand_forecast.{delta_table}")
+        df_spark = pyspark.read.table(f"portfolio.end_to_end_demand_forecast.{delta_table}")
         df = df_spark.toPandas()
         df.to_sql(pg_table, engine, if_exists="replace", index=False)
         print(f"✅ Success: '{pg_table}' exported.")

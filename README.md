@@ -21,6 +21,11 @@ For blog post, see here: https://takehiroohashidsml.substack.com/p/end-to-end-de
 - Evidently AI
 - MAPIE
 
+## Instruction:
+```
+conda install -c conda-forge pyspark
+conda install numpy pandas
+```
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 

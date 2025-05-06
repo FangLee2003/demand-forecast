@@ -9,7 +9,7 @@
 
 # COMMAND ----------
 
-dbutils.library.restartPython()
+# dbutils.library.restartPython()
 
 # COMMAND ----------
 
@@ -25,7 +25,7 @@ from pyspark.sql.types import ArrayType, StringType, IntegerType, FloatType
 
 import pandas as pd
 
-from evidently.spark.engine import SparkEngine
+from evidently.pyspark.engine import SparkEngine
 from evidently import ColumnMapping
 
 from evidently.report import Report
@@ -47,8 +47,8 @@ warnings.simplefilter('ignore')
 
 # COMMAND ----------
 
-train_table = spark.read.table("portfolio.end_to_end_demand_forecast.gold_demandforecast2to1_table")
-test_table = spark.read.table("portfolio.end_to_end_demand_forecast.gold_forecasted_table")
+train_table = pyspark.read.table("portfolio.end_to_end_demand_forecast.gold_demandforecast2to1_table")
+test_table = pyspark.read.table("portfolio.end_to_end_demand_forecast.gold_forecasted_table")
 
 # COMMAND ----------
 
